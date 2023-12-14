@@ -9,11 +9,14 @@
             <div class='posts'>
                 @foreach($posts as $post)
                     <div class='post'>
-                        <h2 class='liquer'>{{ $post->liquer }}</h2>
-                       <a href="">{{ $post->subcategory->name }}</a>
+                        <h2 class='liquer'>
+                            <a href="/posts/{{ $post->id }}">{{ $post->liquer }}</a>
+                        </h2>
+                        <a href="">{{ $post->subcategory->name }}</a>
                         <p class='body'>{{ $post->body }}</p>
                         <p class='evaluation'>{{ $post->evaluation }}</p>
                     </div>
+                    ---------------------------------------------
                 @endforeach
             </div>
             <div class='paginate'>
