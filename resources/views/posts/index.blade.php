@@ -14,7 +14,12 @@
                         </h2>
                         <a href="">{{ $post->subcategory->name }}</a>
                         <p class='body'>{{ $post->body }}</p>
-                        <p class='evaluation'>{{ $post->evaluation }}</p>
+                        <p class='evaluation'>{{ $post->evaluation }}点</p>
+                        <form action="/posts/{{ $post->id }}" id="form_{{ $post->id }}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button" onclick="deletePost({{ $post->id }})">delete</button> 
+                        </form>
                     </div>
                     ---------------------------------------------
                 @endforeach
@@ -24,6 +29,15 @@
             <div class='paginate'>
                 {{ $posts->links() }}
             </div>
+            <script>
+                function deletePost(id) {
+                    'use strict'
+            
+                    if (confirm('削除すると復元できません。\n本当に削除しますか？')) {
+                        document.getElementById(`form_${id}`).submit();
+                    }
+                }
+            </script>
         </body>
     </x-app-layout>
 </html>

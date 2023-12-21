@@ -15,10 +15,11 @@
                         <div class='content_post'>
                             <a href="">{{ $post->subcategory->name }}</a>
                             <p>{{ $post->body }}</p>
-                            <p>{{ $post->evaluation}}</p>
+                            <p>{{ $post->evaluation}}点</p>
                         </div>
                     </div>    
             </div>
+            <div class="edit"><a href="/posts/{{ $post->id }}/edit">edit</a></div>
             <div class='footer'>
                 <a href="/">戻る</a>
             </div>
