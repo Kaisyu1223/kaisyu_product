@@ -5,34 +5,33 @@
             index
         </x-slot>
         <body>
-            <h1>酒呑みの広場</h1>
+            <h1>投稿編集画面</h1>
             <form action="/posts" method="POST">
                 @csrf
-                <div class='categories'>
+                @method('PUT')
+                <div class='content_categories'>
                     <select id='category'>
                         @foreach($categories as $category)
                         <option value={{ $category->id}}>{{ $category->name }}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class='subcategories'>
+                <div class='content_subcategories'>
                     <select id='subcategory'>
                         @foreach($subcategories as $subcategory)
                         <option value={{ $subcategory->id}}>{{ $subcategory->name }}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class='liquer'>
-                    <h2>Liquer name</h2>
-                    <input type="text" name="post[liquer]" placeholder="お酒の名前を入力"value="{{ old('post.title') }}"/>
-                    <p class="liquer__error" style="color:red">{{ $errors->first('post.liquer') }}</p>
+                <div class='content__liquer'>
+                    <h2>お酒の名前を編集</h2>
+                    <input type='text' name='post[title]' value="{{ $post->liquer }}">
                 </div>
-                <div class='body'>
-                    <h2>body</h2>
-                    <textarea name="post[body]" placeholder="お酒の感想を入力">{{ old('post.body') }}</textarea>
-                    <p class="body__error" style="color:red">{{ $errors->first('post.body') }}</p>
+                <div class='content__body'>
+                    <h2>お酒の感想を編集</h2>
+                    <input type='text' name='post[body]' value="{{ $post->body }}">
                 </div>
-                <div class='evaluation'>
+                <div class='content__evaluation'>
                     <h2>5段階評価</h2>
                         <input type="radio" id="star5" name="rating" value="5" />
                         <label for="star5">5</label>
@@ -45,9 +44,11 @@
                         <input type="radio" id="star1" name="rating" value="1" />
                         <label for="star1">1</label>
                 </div>
-                <input type="submit" value="store"/>
+                <input type="submit" value="保存"/>
             </form>
-            <div class='back'>[<a href="/">back</a>]</div>
+            <div class='footer'>
+                <a href="/">戻る</a>
+            </div>
             <script>
             var select = document.querySelector('#category');
             console.log(select);
