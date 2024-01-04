@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Subcategory;
 use App\Models\Category;
 use App\Http\Requests\PostRequest;
+use Illuminate\Support\Facades\Auth;
+use Cloudinary;
+use App\Models\Image;
 
 class PostController extends Controller
 {
@@ -28,13 +31,23 @@ class PostController extends Controller
     public function store(PostRequest $request, Post $post)
     {
         $input = $request['post'];
+        $input += ['user_id' => Auth::id()];
         $post->fill($input)->save();
+        
+        // $files = $request->file('images[]');
+        $files = $request['images'];
+        foreach($files as $file){
+            $image = new Image();
+            $image_url = Cloudinary::upload($file->getRealPath())->getSecurePath();
+            $input_image = ['image_url' => $image_url, 'post_id' => $post->id];
+            $image->fill($input_image)->save();
+        }
         return redirect ('/posts/' . $post->id);
     }
     
-        public function edit(Post $post)
+        public function edit(Post $post, Category $category, Subcategory $subcategory)
     {
-        return view('posts.edit')->with(['post' => $post]);
+        return view('posts.edit')->with(['post' => $post, 'categories' => $category->get(), 'subcategories' => $subcategory->get()]);
     }
     
         public function update(PostRequest $request, Post $post)

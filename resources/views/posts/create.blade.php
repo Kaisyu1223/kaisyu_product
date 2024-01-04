@@ -6,7 +6,7 @@
         </x-slot>
         <body>
             <h1>酒呑みの広場</h1>
-            <form action="/posts" method="POST">
+            <form action="/posts" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class='categories'>
                     <select id='category'>
@@ -16,7 +16,7 @@
                     </select>
                 </div>
                 <div class='subcategories'>
-                    <select id='subcategory'>
+                    <select id='subcategory' name=post[subcategory_id]>
                         @foreach($subcategories as $subcategory)
                         <option value={{ $subcategory->id}}>{{ $subcategory->name }}</option>
                         @endforeach
@@ -34,16 +34,19 @@
                 </div>
                 <div class='evaluation'>
                     <h2>5段階評価</h2>
-                        <input type="radio" id="star5" name="rating" value="5" />
+                        <input type="radio" id="star5" name="post[evaluation]" value="5" />
                         <label for="star5">5</label>
-                        <input type="radio" id="star4" name="rating" value="4" />
+                        <input type="radio" id="star4" name="post[evaluation]" value="4" />
                         <label for="star4">4</label>
-                        <input type="radio" id="star3" name="rating" value="3" />
+                        <input type="radio" id="star3" name="post[evaluation]" value="3" />
                         <label for="star3">3</label>
-                        <input type="radio" id="star2" name="rating" value="2" />
+                        <input type="radio" id="star2" name="post[evaluation]" value="2" />
                         <label for="star2">2</label>
-                        <input type="radio" id="star1" name="rating" value="1" />
+                        <input type="radio" id="star1" name="post[evaluation]" value="1" />
                         <label for="star1">1</label>
+                </div>
+                <div class="image">
+                    <input type="file" name="images[]" multiple>
                 </div>
                 <input type="submit" value="store"/>
             </form>
