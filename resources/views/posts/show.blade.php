@@ -16,6 +16,11 @@
                             <a href="">{{ $post->subcategory->name }}</a>
                             <p>{{ $post->body }}</p>
                             <p>{{ $post->evaluation}}点</p>
+                            <div>
+                                @foreach($post->images as $image)
+                                <img src="{{ $image->image_url }}" alt="画像が読み込めません。"/>
+                                @endforeach
+                            </div>
                         </div>
                     </div>    
             </div>

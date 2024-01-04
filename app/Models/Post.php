@@ -4,10 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Subcategory;
+use App\Models\Image;
+
 
 class Post extends Model
 {
     use HasFactory;
+    
+    protected $fillable = [
+        'liquer',
+        'body',
+        'subcategory_id',
+        'evaluation',
+        'user_id'
+    ];
     
     public function getPaginateByLimit(int $limit_count = 10)
     {
@@ -19,10 +30,9 @@ class Post extends Model
        return $this->belongsTo(Subcategory::class);
     }
     
-    protected $fillable = [
-        'title',
-        'body',
-        'category_id'
-    ];
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
     
 }
