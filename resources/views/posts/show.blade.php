@@ -13,7 +13,7 @@
                     </h1>
                     <div class='content'>
                         <div class='content_post'>
-                            <a href="">{{ $post->subcategory->name }}</a>
+                            <a href="/subcategories/{{ $post->subcategory->id }}">{{ $post->subcategory->name }}</a>
                             <p>{{ $post->body }}</p>
                             <p>{{ $post->evaluation}}点</p>
                             <div>

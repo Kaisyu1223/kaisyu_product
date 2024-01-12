@@ -13,12 +13,20 @@ use App\Models\Image;
 
 class PostController extends Controller
 {
-    public function index(Post $post)
+    public function index(Post $post, Request $request)
     {
-         return view('posts/index')->with(['posts' => $post->getPaginateByLimit(5)]);
+        // $post = Post::query();
+        $posts = $post->getPaginateByLimit(5);
+        $keyword = $request->input('keyword'); 
+        if(!empty($keyword)){
+            $posts = Post::where('liquer', 'LIKE', "%{$keyword}%")->with('subcategory')->orderBy('updated_at', 'DESC')->paginate(5);
+            // $posts = $posts->getPaginateByLimit(5);
+        }
+        // dd($posts);
+        return view('posts.index')->with(['posts' => $posts]);
     }
     
-    public  function show(Post $post)
+    public function show(Post $post)
     {
         return view('posts.show')->with(['post'=> $post]);
     }
@@ -36,11 +44,13 @@ class PostController extends Controller
         
         // $files = $request->file('images[]');
         $files = $request['images'];
-        foreach($files as $file){
-            $image = new Image();
-            $image_url = Cloudinary::upload($file->getRealPath())->getSecurePath();
-            $input_image = ['image_url' => $image_url, 'post_id' => $post->id];
-            $image->fill($input_image)->save();
+        if (!is_null($files)) {
+            foreach($files as $file){
+                $image = new Image();
+                $image_url = Cloudinary::upload($file->getRealPath())->getSecurePath();
+                $input_image = ['image_url' => $image_url, 'post_id' => $post->id];
+                $image->fill($input_image)->save();
+            }
         }
         return redirect ('/posts/' . $post->id);
     }
